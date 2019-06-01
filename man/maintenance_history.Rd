@@ -9,7 +9,6 @@ done
 \describe{
   \item{Item}{Description of maintenanced item}
   \item{mileage_done}{Mileage at which the item was maintenanced}
-  ...
 }}
 \description{
 Dataset contains the maintenence items as well as mileage the item

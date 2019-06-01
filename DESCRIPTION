@@ -1,12 +1,12 @@
 Package: cruiser
 Type: Package
-Title: What the Package Does (Title Case)
+Title: cruiser
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: John Lewis
+Maintainer: Me <lewisjr2@gmail.com>
+Description: Provides an easy way for me to see the mileage at which my LX470 needs maintenance
+License: Free
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Imports: magrittr, dplyr

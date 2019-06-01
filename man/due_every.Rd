@@ -8,7 +8,6 @@
 \describe{
   \item{Item}{Description of maintenanced item}
   \item{mileage_done}{Mileage at which the item was maintenanced}
-  ...
 }}
 \description{
 Dataset contains a list of maintenance items and recommended
