@@ -18,8 +18,8 @@ find_max_mileage <- function(dtfr){
 #' Takes current history and provides a mileage due report showing the items
 #' up for maintenance in order according to mileage
 #'
-#' @param maintenance_history current maintenance history dataframe. Provided by
-#' package
+#' @param maintenance_history current maintenance history dataframe. Package provides and example format
+#' @param due_every the due_every dataframe. Package provides an example format.
 #' @param current_mileage current mileage of truck
 #' @return  A dataframe with items and the next mileage at which maintenance is
 #' due. Ordered so that next set of maintenance needs appear first.
@@ -29,7 +29,7 @@ find_max_mileage <- function(dtfr){
 #' @importFrom  magrittr %>%
 #' @importFrom  purrr map
 #' @export
-maintenance_report <- function(maintenance_history,
+maintenance_report <- function(maintenance_history, due_every,
                                current_mileage = NULL){
   #Find the max Mileage and add the recommended mileage ----
   items <- unique(maintenance_history$Item)

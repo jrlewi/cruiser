@@ -4,11 +4,13 @@
 \alias{maintenance_report}
 \title{Maintenance Report}
 \usage{
-maintenance_report(maintenance_history, current_mileage = NULL)
+maintenance_report(maintenance_history, due_every,
+  current_mileage = NULL)
 }
 \arguments{
-\item{maintenance_history}{current maintenance history dataframe. Provided by
-package}
+\item{maintenance_history}{current maintenance history dataframe. Package provides and example format}
+
+\item{due_every}{the due_every dataframe. Package provides an example format.}
 
 \item{current_mileage}{current mileage of truck}
 }
