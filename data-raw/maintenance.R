@@ -1,6 +1,5 @@
-#can use this file to update the maintenace history dataset with new mileages.
-
 library(tidyverse)
+
 ## History-----
 oil <- tibble(Item = 'Oil Change + Grease Driveline',
               mileage = c(159063, 163500))
@@ -45,7 +44,8 @@ heater_ts <- tibble(Item = c('Heater Ts',
 
 # History ------
 (maintenance_history <-
-   dplyr::bind_rows(oil, power_steer, break_fluid,
+   dplyr::bind_rows(oil, t_case, diff_fluid,
+                    power_steer, break_fluid,
                     AHC, trans, tires, tire_rot,
                     air_filter, indoor_air_filter,
                     brakes, heater_ts) %>%
@@ -53,7 +53,8 @@ heater_ts <- tibble(Item = c('Heater Ts',
    arrange(desc(mileage), .by_group = TRUE))
 
 maintenance_history <- maintenance_history %>%
-  rename(mileage_done = mileage)
+  rename(mileage_done = mileage) %>%
+  mutate(mileage_done = round(mileage_done,-2))
 
 
 save(maintenance_history, file = '../cruiser/data/maintenance_history.RData')
@@ -65,22 +66,49 @@ due_every <- tibble(Item = items, due_every = c(60000,
                                                 30000,
                                                 90000,
                                                 30000,
+                                                30000,
                                                 15000,
                                                 10000,
                                                 30000,
-                                                100000,
+                                                120000,
+                                                30000,
                                                 90000,
                                                 5000,
                                                 60000,
                                                 10000,
                                                 30000))
 
+due_every <- due_every %>%
+  mutate(notes = c(
+    'AHS fluid  = ??',
+    'Air Filter - order on amazon',
+    'break fluid type = ??',
+    'break types = ?',
+    'gear oil 80W-90 Valvolene, rear - 3.3/2 Liters, front - 1.7 Liters',
+    'order online, get part number',
+    'Indoor Air Filter - order on amazon',
+    'Oil - Mobil 1 Extend Performance 15,000 miles, Advanced fuel synthetic motor oil',
+    'Power Steering fluid type = ??',
+    'Type of spartk plugs?',
+    'T-case fluid - same as front/rear diff?, 1.27 Liters',
+    'Timing belt/Water Pump - get done at dealer?',
+    'Tire Rotation: Spare -> Passenger Rear -> Passenger Front -> Driver Rear -> Driver Front -> Spare',
+    'Tires Put on - BF Goodrich',
+    'Transmission - 12 Quarts, Valvoline Max Life Full Synthetic. Multi Vehicle ATF Automatic Transmission Fluid (recommended for Toyota)',
+    "Wheel Bearings - order online???"))
+
+
+
+
+
+
+
 save(due_every, file = '../cruiser/data/due_every.RData')
 
 
 
-## Create List of Next Maintence Items Due ----
-
+# ## Create List of Next Maintence Items Due ----
+#
 # find_max_mileage <- function(dtfr){
 #   dtfr %>%
 #     arrange(desc(mileage_done)) %>%
@@ -105,16 +133,18 @@ save(due_every, file = '../cruiser/data/due_every.RData')
 #     select(-due_every) %>%
 #     arrange(due)
 #   if(!is.null(current_mileage)){
-#     due %>%
+#     due <-  due %>%
 #       mutate(due_in = due - current_mileage)
 #   }
-#   due
+#   due %>%
+#     select(-one_of('notes'), one_of('notes'))
 # }
 #
-# maintenance_report(maintenance_history)
-
-
-
-
-
-
+#
+#
+#
+#
+#
+#
+#
+#

@@ -48,5 +48,6 @@ maintenance_report <- function(maintenance_history,
     due <- due %>%
       mutate(due_in = due - current_mileage)
   }
-  due
+  due %>%
+    select(-one_of("notes"), one_of("notes"))
 }
