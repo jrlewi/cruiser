@@ -56,6 +56,8 @@ maintenance_history <- maintenance_history %>%
   rename(mileage_done = mileage) %>%
   mutate(mileage_done = round(mileage_done,-2))
 
+maintenance_history  <- maintenance_history %>%
+  mutate_if(is.numeric, as.integer)
 
 save(maintenance_history, file = '../cruiser/data/maintenance_history.RData')
 
@@ -99,8 +101,8 @@ due_every <- due_every %>%
 
 
 
-
-
+due_every <- due_every %>%
+  mutate_if(is.numeric, as.integer)
 
 
 save(due_every, file = '../cruiser/data/due_every.RData')
