@@ -19,18 +19,7 @@ knitr::opts_chunk$set(
 
 This package makes it easy to keep track of when maintenance is due on your vehicle. All you need to provide is tidy data on the maintenence items you want to monitor 
 
-<!-- # Downloading -->
-<!-- If needed, download from my githib.  -->
-<!-- ```{r, download, echo = TRUE, eval= FALSE} -->
-<!-- devtools::install_git('https://github.com/jrlewi/cruiser')  -->
-<!-- ``` -->
-
-# ```{r, attach, echo = TRUE}
-# library(cruiser)
-# library(magrittr)
-# ```
-
-You'll need to create two custom data frames
+You'll need to create two custom data frames:
 
 1. `maintenance_history` - data frame with two columns. First column is the `Item` which is a charactor variable describing the maintenance item. Second column is the `mileage_done` recording the mileage when the maintenance was performed. The idea is for this to be a complete history of all the maintenance you want to keep track of. 
 
