@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="John Lewis" />
+
+<meta name="date" content="2019-06-26" />
+
+<title>Cruiser - Keeping Track of Vehicle Maintenance</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Cruiser - Keeping Track of Vehicle Maintenance</h1>
+<h4 class="author"><em>John Lewis</em></h4>
+<h4 class="date"><em>2019-06-26</em></h4>
+
+
+
+<p>This package makes it easy to keep track of when maintenance is due on your vehicle. All you need to provide is tidy data on the maintenence items you want to monitor</p>
+<div id="downloading" class="section level1">
+<h1>Downloading</h1>
+<p>If needed, download from my githib.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw">install_git</span>(<span class="st">&#39;https://github.com/jrlewi/cruiser&#39;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(cruiser)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">library</span>(magrittr)</a></code></pre></div>
+<p>You’ll need to create two custom data frames</p>
+<ol style="list-style-type: decimal">
+<li><p><code>maintenance_history</code> - data frame with two columns. First column is the <code>Item</code> which is a charactor variable describing the maintenance item. Second column is the <code>mileage_done</code> recording the mileage when the maintenance was performed. The idea is for this to be a complete history of all the maintenance you want to keep track of.</p></li>
+<li><p><code>due_every</code> - for each unique <code>Item</code> in <code>mainteance_history</code> you record the number of miles you want between services for that item. Optionally you can add a <code>notes</code> column. I tend to keep notes on the type of part/fluid I use.</p></li>
+</ol>
+<p>The main function <code>maintenance_report</code> takes these two data frames and optionally the current mileage on your car and returns a useful report - a data frame ordered by the maintence that upcoming.</p>
+</div>
+<div id="example-data-frames" class="section level1">
+<h1>Example Data Frames</h1>
+<p>The package provides example data frames to get you started. These come from the maintenance history of my LX 470 Land Cruiser (hence the package name!).</p>
+<p>Here is what the first few rows look like:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(cruiser)</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3">my_maint_history &lt;-<span class="st"> </span>cruiser<span class="op">::</span>maintenance_history</a>
+<a class="sourceLine" id="cb3-4" title="4">my_due_every &lt;-<span class="st"> </span>cruiser<span class="op">::</span>due_every</a>
+<a class="sourceLine" id="cb3-5" title="5">knitr<span class="op">::</span><span class="kw">kable</span>(my_maint_history <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()) </a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Item</th>
+<th align="right">mileage_done</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AHC (Adjustable Hydraulic Height)</td>
+<td align="right">159100</td>
+</tr>
+<tr class="even">
+<td align="left">Air Filter</td>
+<td align="right">163000</td>
+</tr>
+<tr class="odd">
+<td align="left">Air Filter</td>
+<td align="right">159100</td>
+</tr>
+<tr class="even">
+<td align="left">Break Fluid</td>
+<td align="right">159100</td>
+</tr>
+<tr class="odd">
+<td align="left">Breaks</td>
+<td align="right">96700</td>
+</tr>
+<tr class="even">
+<td align="left">Diff Fluid Front &amp; Rear</td>
+<td align="right">165600</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">knitr<span class="op">::</span><span class="kw">kable</span>(my_due_every <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">head</span>())</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Item</th>
+<th align="right">due_every</th>
+<th align="left">notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">AHC (Adjustable Hydraulic Height)</td>
+<td align="right">60000</td>
+<td align="left">AHS fluid = ??</td>
+</tr>
+<tr class="even">
+<td align="left">Air Filter</td>
+<td align="right">10000</td>
+<td align="left">Air Filter - order on amazon</td>
+</tr>
+<tr class="odd">
+<td align="left">Break Fluid</td>
+<td align="right">30000</td>
+<td align="left">break fluid type = ??</td>
+</tr>
+<tr class="even">
+<td align="left">Breaks</td>
+<td align="right">90000</td>
+<td align="left">break types = ?</td>
+</tr>
+<tr class="odd">
+<td align="left">Diff Fluid Front &amp; Rear</td>
+<td align="right">30000</td>
+<td align="left">gear oil 80W-90 Valvolene, rear - 3.3/2 Liters, front - 1.7 Liters</td>
+</tr>
+<tr class="even">
+<td align="left">Heater Ts</td>
+<td align="right">30000</td>
+<td align="left">order online, get part number</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="maintenance-report" class="section level1">
+<h1>Maintenance report</h1>
+<p>My car currently has 169000 miles. Feeding this information into <code>maintenance_history</code> results in a data frame telling me that I will need to rotate my tires in 2400 miles and my air filter in 4000 miles. I have an oil change due in 4500 miles and so on.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">maintenance_report</span>(my_maint_history, </a>
+<a class="sourceLine" id="cb5-2" title="2">                            my_due_every, </a>
+<a class="sourceLine" id="cb5-3" title="3">                            <span class="dt">current_mileage =</span> <span class="dv">169000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Item</th>
+<th align="right">mileage_done</th>
+<th align="right">due</th>
+<th align="right">due_in</th>
+<th align="left">notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Tire Rotation</td>
+<td align="right">166400</td>
+<td align="right">171400</td>
+<td align="right">2400</td>
+<td align="left">Tire Rotation: Spare -&gt; Passenger Rear -&gt; Passenger Front -&gt; Driver Rear -&gt; Driver Front -&gt; Spare</td>
+</tr>
+<tr class="even">
+<td align="left">Air Filter</td>
+<td align="right">163000</td>
+<td align="right">173000</td>
+<td align="right">4000</td>
+<td align="left">Air Filter - order on amazon</td>
+</tr>
+<tr class="odd">
+<td align="left">Oil Change + Grease Driveline</td>
+<td align="right">163500</td>
+<td align="right">173500</td>
+<td align="right">4500</td>
+<td align="left">Oil - Mobil 1 Extend Performance 15,000 miles, Advanced fuel synthetic motor oil</td>
+</tr>
+<tr class="even">
+<td align="left">Transmission</td>
+<td align="right">165600</td>
+<td align="right">175600</td>
+<td align="right">6600</td>
+<td align="left">Transmission - 12 Quarts, Valvoline Max Life Full Synthetic. Multi Vehicle ATF Automatic Transmission Fluid (recommended for Toyota)</td>
+</tr>
+<tr class="odd">
+<td align="left">Indoor Air Filter</td>
+<td align="right">163000</td>
+<td align="right">178000</td>
+<td align="right">9000</td>
+<td align="left">Indoor Air Filter - order on amazon</td>
+</tr>
+<tr class="even">
+<td align="left">Timing Bel/Water Pump</td>
+<td align="right">90000</td>
+<td align="right">180000</td>
+<td align="right">11000</td>
+<td align="left">Timing belt/Water Pump - get done at dealer?</td>
+</tr>
+</tbody>
+</table>
+<p>When maintenance is done, add a row to your <code>maintenance_history</code> and update your report with a new call to <code>maintenance_report</code>.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
