@@ -1,5 +1,5 @@
 # cruiser
-R package to help keep track of my car's maintenance schedule
+R package to help you keep track of your car's maintenance schedule
 
 # Installation
 if (!require("devtools")) install.packages("devtools")
@@ -11,4 +11,4 @@ library(cruiser)
 
 # Vignette
 The vignette guides you through creating your own maintenance report. 
-vignette('Introduction', package='HIVBackCalc')
+vignette('Introduction', package='cruiser')
