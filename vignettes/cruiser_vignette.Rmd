@@ -1,0 +1,73 @@
+---
+title: "Cruiser - Keeping Track of Vehicle Maintenance"
+author: "John Lewis"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cruiser - Keeping track of Land Cruiser Maintenance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+```
+
+This package makes it easy to keep track of when maintenance is due on your vehicle. All you need to provide is tidy data on the maintenence items you want to monitor 
+
+# Downloading
+If needed, download from my githib. 
+```{r, download, echo = TRUE, eval= FALSE}
+devtools::install_git('https://github.com/jrlewi/cruiser') 
+```
+
+```{r, attach, echo = TRUE}
+library(cruiser)
+library(magrittr)
+```
+
+You'll need to create two custom data frames
+
+1. `maintenance_history` - data frame with two columns. First column is the `Item` which is a charactor variable describing the maintenance item. Second column is the `mileage_done` recording the mileage when the maintenance was performed. The idea is for this to be a complete history of all the maintenance you want to keep track of. 
+
+2. `due_every` - for each unique `Item` in `mainteance_history` you record the number of miles you want between services for that item. Optionally you can add a `notes` column. I tend to keep notes on the type of part/fluid I use.
+
+The main function `maintenance_report` takes these two data frames and optionally the current mileage on your car and returns a useful report - a data frame ordered by the maintence that upcoming. 
+
+# Example Data Frames 
+
+The package provides example data frames to get you started. These come from the maintenance history of my LX 470 Land Cruiser (hence the package name!).
+
+Here is what the first few rows look like:
+
+```{r, dtframes, echo = TRUE}
+library(cruiser)
+
+my_maint_history <- cruiser::maintenance_history
+my_due_every <- cruiser::due_every
+knitr::kable(my_maint_history %>% head()) 
+knitr::kable(my_due_every %>%  head())
+```
+
+
+# Maintenance report 
+
+
+
+My car currently has 169000 miles. Feeding this information into `maintenance_history` results in a data frame telling me that I will need to rotate my tires in 2400 miles and my air filter in 4000 miles. I have an oil change due in 4500 miles and so on.
+
+```{r, report, echo = TRUE}
+maintenance_report(my_maint_history, 
+                            my_due_every, 
+                            current_mileage = 169000) %>%
+  head() %>% 
+  knitr::kable()
+```
+
+
+When maintenance is done, add a row to your `maintenance_history` and update your report with a new call to `maintenance_report`.
+
