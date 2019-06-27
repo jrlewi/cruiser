@@ -150,3 +150,4 @@ save(due_every, file = '../cruiser/data/due_every.RData')
 #
 #
 #
+devtools::use_vignette('cruiser_vignette')
