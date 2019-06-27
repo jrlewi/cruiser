@@ -19,16 +19,16 @@ knitr::opts_chunk$set(
 
 This package makes it easy to keep track of when maintenance is due on your vehicle. All you need to provide is tidy data on the maintenence items you want to monitor 
 
-# Downloading
-If needed, download from my githib. 
-```{r, download, echo = TRUE, eval= FALSE}
-devtools::install_git('https://github.com/jrlewi/cruiser') 
-```
+<!-- # Downloading -->
+<!-- If needed, download from my githib.  -->
+<!-- ```{r, download, echo = TRUE, eval= FALSE} -->
+<!-- devtools::install_git('https://github.com/jrlewi/cruiser')  -->
+<!-- ``` -->
 
-```{r, attach, echo = TRUE}
-library(cruiser)
-library(magrittr)
-```
+# ```{r, attach, echo = TRUE}
+# library(cruiser)
+# library(magrittr)
+# ```
 
 You'll need to create two custom data frames
 
@@ -46,7 +46,7 @@ Here is what the first few rows look like:
 
 ```{r, dtframes, echo = TRUE}
 library(cruiser)
-
+library(magrittr)
 my_maint_history <- cruiser::maintenance_history
 my_due_every <- cruiser::due_every
 knitr::kable(my_maint_history %>% head()) 
@@ -55,8 +55,6 @@ knitr::kable(my_due_every %>%  head())
 
 
 # Maintenance report 
-
-
 
 My car currently has 169000 miles. Feeding this information into `maintenance_history` results in a data frame telling me that I will need to rotate my tires in 2400 miles and my air filter in 4000 miles. I have an oil change due in 4500 miles and so on.
 
