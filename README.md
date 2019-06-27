@@ -4,8 +4,8 @@ R package to help you keep track of your car's maintenance schedule
 
 # Installation
 
-devtools::install_github('https://github.com/jrlewi/cruiser', 
-build_vignettes=TRUE)
+devtools::install_github('https://github.com/jrlewi/cruiser',
+                         build_opts = c("--no-resave-data", "--no-manual"))
 
 # Attaching the package
 
