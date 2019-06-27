@@ -11,4 +11,4 @@ library(cruiser)
 
 # Vignette
 The vignette guides you through creating your own maintenance report. 
-vignette('Introduction', package='cruiser')
+vignette('cruiser', package='cruiser')
