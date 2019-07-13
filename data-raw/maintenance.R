@@ -13,7 +13,7 @@ diff_fluid <- tibble(Item = 'Diff Fluid Front & Rear',
 power_steer <- tibble(Item = 'Power Steering',
                       mileage = c(159063))
 
-break_fluid <- tibble(Item = 'Break Fluid',
+brake_fluid <- tibble(Item = 'Brake Fluid',
                       mileage = c(159063))
 
 AHC <- tibble(Item = "AHC (Adjustable Hydraulic Height)",
@@ -26,7 +26,7 @@ tires <- tibble(Item = 'Tires Put On',
                 mileage = c(161448))
 
 tire_rot <- tibble(Item = 'Tire Rotation',
-                   mileage = c(161448, 166448))
+                   mileage = c(161448, 165600))
 
 air_filter <- tibble(Item = "Air Filter",
                      mileage = c(159063, 163000))
@@ -34,7 +34,7 @@ air_filter <- tibble(Item = "Air Filter",
 indoor_air_filter <- tibble(Item = "Indoor Air Filter",
                             mileage = c(159063, 163000))
 
-brakes <- tibble(Item = c('Breaks', 'Wheel Bearings'),
+brakes <- tibble(Item = c('Brakes', 'Wheel Bearings'),
                  mileage = c(96665, 165600))
 
 heater_ts <- tibble(Item = c('Heater Ts',
@@ -45,7 +45,7 @@ heater_ts <- tibble(Item = c('Heater Ts',
 # History ------
 (maintenance_history <-
    dplyr::bind_rows(oil, t_case, diff_fluid,
-                    power_steer, break_fluid,
+                    power_steer, brake_fluid,
                     AHC, trans, tires, tire_rot,
                     air_filter, indoor_air_filter,
                     brakes, heater_ts) %>%
@@ -84,8 +84,8 @@ due_every <- due_every %>%
   mutate(notes = c(
     'AHS fluid  = ??',
     'Air Filter - order on amazon',
-    'break fluid type = ??',
-    'break types = ?',
+    'brake fluid type = ??',
+    'brake types = ?',
     'gear oil 80W-90 Valvolene, rear - 3.3/2 Liters, front - 1.7 Liters',
     'order online, get part number',
     'Indoor Air Filter - order on amazon',

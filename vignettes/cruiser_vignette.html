@@ -12,7 +12,7 @@
 
 <meta name="author" content="John Lewis" />
 
-<meta name="date" content="2019-06-26" />
+<meta name="date" content="2019-07-08" />
 
 <title>Cruiser - Keeping Track of Vehicle Maintenance</title>
 
@@ -278,33 +278,26 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Cruiser - Keeping Track of Vehicle Maintenance</h1>
 <h4 class="author"><em>John Lewis</em></h4>
-<h4 class="date"><em>2019-06-26</em></h4>
+<h4 class="date"><em>2019-07-08</em></h4>
 
 
 
 <p>This package makes it easy to keep track of when maintenance is due on your vehicle. All you need to provide is tidy data on the maintenence items you want to monitor</p>
-<div id="downloading" class="section level1">
-<h1>Downloading</h1>
-<p>If needed, download from my githib.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw">install_git</span>(<span class="st">&#39;https://github.com/jrlewi/cruiser&#39;</span>) </a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(cruiser)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">library</span>(magrittr)</a></code></pre></div>
-<p>You’ll need to create two custom data frames</p>
+<p>You’ll need to create two custom data frames:</p>
 <ol style="list-style-type: decimal">
 <li><p><code>maintenance_history</code> - data frame with two columns. First column is the <code>Item</code> which is a charactor variable describing the maintenance item. Second column is the <code>mileage_done</code> recording the mileage when the maintenance was performed. The idea is for this to be a complete history of all the maintenance you want to keep track of.</p></li>
 <li><p><code>due_every</code> - for each unique <code>Item</code> in <code>mainteance_history</code> you record the number of miles you want between services for that item. Optionally you can add a <code>notes</code> column. I tend to keep notes on the type of part/fluid I use.</p></li>
 </ol>
 <p>The main function <code>maintenance_report</code> takes these two data frames and optionally the current mileage on your car and returns a useful report - a data frame ordered by the maintence that upcoming.</p>
-</div>
 <div id="example-data-frames" class="section level1">
 <h1>Example Data Frames</h1>
 <p>The package provides example data frames to get you started. These come from the maintenance history of my LX 470 Land Cruiser (hence the package name!).</p>
 <p>Here is what the first few rows look like:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(cruiser)</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3">my_maint_history &lt;-<span class="st"> </span>cruiser<span class="op">::</span>maintenance_history</a>
-<a class="sourceLine" id="cb3-4" title="4">my_due_every &lt;-<span class="st"> </span>cruiser<span class="op">::</span>due_every</a>
-<a class="sourceLine" id="cb3-5" title="5">knitr<span class="op">::</span><span class="kw">kable</span>(my_maint_history <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()) </a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(cruiser)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb1-3" title="3">my_maint_history &lt;-<span class="st"> </span>cruiser<span class="op">::</span>maintenance_history</a>
+<a class="sourceLine" id="cb1-4" title="4">my_due_every &lt;-<span class="st"> </span>cruiser<span class="op">::</span>due_every</a>
+<a class="sourceLine" id="cb1-5" title="5">knitr<span class="op">::</span><span class="kw">kable</span>(my_maint_history <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()) </a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -339,7 +332,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">knitr<span class="op">::</span><span class="kw">kable</span>(my_due_every <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">head</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">knitr<span class="op">::</span><span class="kw">kable</span>(my_due_every <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">head</span>())</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -385,11 +378,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="maintenance-report" class="section level1">
 <h1>Maintenance report</h1>
 <p>My car currently has 169000 miles. Feeding this information into <code>maintenance_history</code> results in a data frame telling me that I will need to rotate my tires in 2400 miles and my air filter in 4000 miles. I have an oil change due in 4500 miles and so on.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">maintenance_report</span>(my_maint_history, </a>
-<a class="sourceLine" id="cb5-2" title="2">                            my_due_every, </a>
-<a class="sourceLine" id="cb5-3" title="3">                            <span class="dt">current_mileage =</span> <span class="dv">169000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">maintenance_report</span>(my_maint_history, </a>
+<a class="sourceLine" id="cb3-2" title="2">                            my_due_every, </a>
+<a class="sourceLine" id="cb3-3" title="3">                            <span class="dt">current_mileage =</span> <span class="dv">169000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -403,9 +396,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tbody>
 <tr class="odd">
 <td align="left">Tire Rotation</td>
-<td align="right">166400</td>
-<td align="right">171400</td>
-<td align="right">2400</td>
+<td align="right">165600</td>
+<td align="right">170600</td>
+<td align="right">1600</td>
 <td align="left">Tire Rotation: Spare -&gt; Passenger Rear -&gt; Passenger Front -&gt; Driver Rear -&gt; Driver Front -&gt; Spare</td>
 </tr>
 <tr class="even">
